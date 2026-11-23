@@ -3,7 +3,6 @@ package pt.cpwidget
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
@@ -65,7 +64,7 @@ class TrainListFactory(private val context: Context, private val id: Int) : Remo
             d.cancelled -> {
                 v.setTextViewText(R.id.time, strike(time))
                 v.setTextViewText(R.id.status, context.getString(R.string.cancelled))
-                v.setTextColor(R.id.status, RED)
+                v.setColorStateList(R.id.status, "setTextColor", R.color.status_cancelled)
                 v.setViewVisibility(R.id.status, View.VISIBLE)
             }
             d.isDelayed() -> {
@@ -74,13 +73,13 @@ class TrainListFactory(private val context: Context, private val id: Int) : Remo
                     R.id.status,
                     context.getString(R.string.delayed, HHMM.format(d.effectiveTime()), d.delayMinutes),
                 )
-                v.setTextColor(R.id.status, ORANGE)
+                v.setColorStateList(R.id.status, "setTextColor", R.color.status_late)
                 v.setViewVisibility(R.id.status, View.VISIBLE)
             }
             else -> {
                 v.setTextViewText(R.id.time, time)
                 v.setTextViewText(R.id.status, "✓")
-                v.setTextColor(R.id.status, GREEN)
+                v.setColorStateList(R.id.status, "setTextColor", R.color.status_ok)
                 v.setViewVisibility(R.id.status, View.VISIBLE)
             }
         }
@@ -100,8 +99,5 @@ class TrainListFactory(private val context: Context, private val id: Int) : Remo
 
     companion object {
         private val HHMM = DateTimeFormatter.ofPattern("HH:mm")
-        private val RED = Color.parseColor("#D32F2F")
-        private val ORANGE = Color.parseColor("#EF6C00")
-        private val GREEN = Color.parseColor("#2E7D32")
     }
 }

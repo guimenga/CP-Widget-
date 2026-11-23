@@ -41,6 +41,14 @@ class TrainWidgetProvider : AppWidgetProvider() {
 
         fun stationUrl(code: String) = "https://www.cp.pt/pt/pesquisa-estacao-detalhe/$code"
 
+        /** Shows [station] in widget [id] and fetches its times. */
+        fun switchStation(context: Context, id: Int, station: Station) {
+            WidgetStore(context).setStation(id, station.code, station.name)
+            val manager = AppWidgetManager.getInstance(context)
+            render(context, manager, id)
+            manager.notifyAppWidgetViewDataChanged(id, R.id.list)
+        }
+
         /** Ask the list to re-fetch; the network call happens in [TrainListFactory]. */
         fun refresh(context: Context, id: Int) {
             WidgetStore(context).requestRefresh(id)
@@ -109,15 +117,16 @@ class TrainWidgetProvider : AppWidgetProvider() {
             )
             views.setOnClickPendingIntent(R.id.refresh, pi)
 
-            // Tapping the station name reopens setup to change station.
-            val configIntent = Intent(context, ConfigActivity::class.java).apply {
+            // Tapping the station name opens the station picker (or setup if none chosen yet).
+            val target = if (store.stationCode(id) == null) ConfigActivity::class.java else StationPickerActivity::class.java
+            val pickIntent = Intent(context, target).apply {
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id)
-                putExtra(ConfigActivity.EXTRA_RECONFIGURE, true)
-                data = Uri.parse("cpwidget://config/$id")
+                data = Uri.parse("cpwidget://pick/$id")
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             views.setOnClickPendingIntent(
-                R.id.station,
-                PendingIntent.getActivity(context, id, configIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE),
+                R.id.station_button,
+                PendingIntent.getActivity(context, id, pickIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE),
             )
             views.setViewVisibility(R.id.progress, if (store.isRefreshing(id)) View.VISIBLE else View.GONE)
             views.setViewVisibility(R.id.refresh, if (store.isRefreshing(id)) View.GONE else View.VISIBLE)

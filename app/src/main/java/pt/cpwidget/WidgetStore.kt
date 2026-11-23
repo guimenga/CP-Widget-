@@ -14,13 +14,25 @@ class WidgetStore(context: Context) {
     fun lastUpdated(id: Int): Long = prefs.getLong("$id.updated", 0)
     fun lastError(id: Int): String? = prefs.getString("$id.error", null)
 
+    /** Switches the widget to a station; old timetable is dropped and a fetch is requested. */
     fun setStation(id: Int, code: String, name: String) {
         prefs.edit()
             .putString("$id.code", code)
             .putString("$id.name", name)
             .putBoolean("$id.refresh", true)
-            .apply()
+            .remove("$id.data")
+            .remove("$id.updated")
+            .remove("$id.error")
+            .commit()
     }
+
+    /** Stations currently shown by any widget (used to seed favourites after an update). */
+    fun shownStations(): List<Station> =
+        prefs.all.keys.filter { it.endsWith(".code") }.mapNotNull { key ->
+            val id = key.removeSuffix(".code")
+            val code = prefs.getString(key, null) ?: return@mapNotNull null
+            Station(code, prefs.getString("$id.name", null) ?: code)
+        }.distinctBy { it.code }
 
     /** Marks that the next list rebuild should fetch fresh data. */
     fun requestRefresh(id: Int) = prefs.edit().putBoolean("$id.refresh", true).commit()
@@ -70,5 +82,52 @@ class WidgetStore(context: Context) {
         val e = prefs.edit()
         prefs.all.keys.filter { it.startsWith("$id.") }.forEach { e.remove(it) }
         e.apply()
+    }
+}
+
+data class Station(val code: String, val name: String)
+
+/** The user's favourite stations, shared by all widgets. */
+class Favorites(private val context: Context) {
+    private val prefs = context.getSharedPreferences("favorites", Context.MODE_PRIVATE)
+
+    fun list(): List<Station> {
+        val raw = prefs.getString(KEY, null)
+            ?: return WidgetStore(context).shownStations().take(MAX).also { save(it) }
+        return runCatching {
+            val arr = JSONArray(raw)
+            List(arr.length()) { i -> arr.getJSONObject(i).let { Station(it.getString("code"), it.getString("name")) } }
+        }.getOrDefault(emptyList())
+    }
+
+    /** Adds a station (no duplicates). Returns false if the list is already full. */
+    fun add(station: Station): Boolean {
+        val cur = list()
+        if (cur.any { it.code == station.code }) return true
+        if (cur.size >= MAX) return false
+        save(cur + station)
+        return true
+    }
+
+    fun remove(code: String) = save(list().filterNot { it.code == code })
+
+    fun move(code: String, delta: Int) {
+        val cur = list().toMutableList()
+        val i = cur.indexOfFirst { it.code == code }
+        val j = i + delta
+        if (i < 0 || j !in cur.indices) return
+        cur.add(j, cur.removeAt(i))
+        save(cur)
+    }
+
+    private fun save(list: List<Station>) {
+        val arr = JSONArray()
+        list.forEach { arr.put(JSONObject().put("code", it.code).put("name", it.name)) }
+        prefs.edit().putString(KEY, arr.toString()).commit()
+    }
+
+    companion object {
+        const val MAX = 5
+        private const val KEY = "list"
     }
 }

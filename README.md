@@ -5,9 +5,12 @@ Android home-screen widget (Android 12+) that shows the departure board of a
 status (on time ✓, delayed with the new estimated time, or *Suprimido*).
 
 - Scrollable list of all upcoming departures (rolls into tomorrow late at night).
-- One station per widget; add several widgets for several stations.
-- Refreshes **only when you tap ↻** (no background battery use). The header shows when it was last updated.
-- Tap the station name to change station. Tap a train to open the station page on cp.pt.
+- Up to 5 favourite stations, shared by all widgets. Tap the station name (▾) to switch
+  between them; the new station's times are fetched immediately. *⚙ Gerir estações* at the
+  bottom of that list adds, removes or reorders favourites.
+- Refreshes **only when you tap ↻** or switch station (no background battery use). The header shows when it was last updated.
+- Follows the phone's light/dark mode.
+- Tap a train to open the station page on cp.pt.
 - Interface in Portuguese.
 
 ## Install
@@ -15,9 +18,10 @@ status (on time ✓, delayed with the new estimated time, or *Suprimido*).
 1. Open the repository's **Releases** → `latest` on your phone and download `cp-widget.apk`.
 2. Open it. Android will ask you to allow installing apps from your browser/files app — allow it once.
 3. Long-press the home screen → **Widgets** → **Comboios CP** → drag *Partidas CP* onto the screen.
-4. On cp.pt open your station (*Pesquisa de estações*), copy the page address, e.g.
-   `https://www.cp.pt/pt/pesquisa-estacao-detalhe/94-60087`, paste it and tap **Guardar**.
-   (If the link is already in the clipboard it is filled in automatically.)
+4. In *Estações favoritas*: on cp.pt open a station (*Pesquisa de estações*), copy the page
+   address, e.g. `https://www.cp.pt/pt/pesquisa-estacao-detalhe/94-60087`, paste it and tap
+   **Adicionar** (a copied link is filled in automatically). Repeat for up to 5 stations,
+   then tap the one to show.
 
 Every push builds a new APK (GitHub Actions) and replaces the `latest` release.
 Builds are signed with the same key (`app/sideload.keystore`, not a secret), so a new

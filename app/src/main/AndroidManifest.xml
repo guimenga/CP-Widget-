@@ -38,5 +38,13 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".StationPickerActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:noHistory="true"
+            android:taskAffinity="pt.cpwidget.picker"
+            android:theme="@style/PickerTheme" />
     </application>
 </manifest>
