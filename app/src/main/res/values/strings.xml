@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Comboios CP</string>
+    <string name="widget_name">Partidas CP</string>
+    <string name="widget_description">Próximas partidas de uma estação CP</string>
+    <string name="config_title">Escolher estação</string>
+    <string name="no_station">Toque para escolher estação</string>
+    <string name="refreshing">A atualizar…</string>
+    <string name="updated_at">Atualizado às %1$s</string>
+    <string name="error_short">Erro ao atualizar</string>
+    <string name="error_long">Não foi possível obter os horários. Toque em ↻ para tentar novamente.</string>
+    <string name="empty">Sem partidas. Toque em ↻ para atualizar.</string>
+    <string name="cancelled">Suprimido</string>
+    <string name="delayed">%1$s (+%2$d min)</string>
+    <string name="next_day">Amanhã</string>
+    <string name="refresh">Atualizar</string>
+    <string name="config_help">Abra a estação em cp.pt (Pesquisa de estações), copie o endereço da página e cole-o aqui.\n\nExemplo: https://www.cp.pt/pt/pesquisa-estacao-detalhe/94-60087</string>
+    <string name="input_hint">Endereço da estação em cp.pt</string>
+    <string name="open_site">Abrir cp.pt</string>
+    <string name="save">Guardar</string>
+    <string name="invalid_link">Endereço inválido. Deve terminar num código como 94-60087.</string>
+    <string name="checking">A verificar estação…</string>
+    <string name="unknown_station">A CP não reconhece esta estação.</string>
+    <string name="network_error">Sem ligação à CP. Verifique a internet e tente novamente.</string>
+</resources>

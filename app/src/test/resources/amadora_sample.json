@@ -1,0 +1,123 @@
+{
+ "stationStops": [
+  {
+   "trainNumber": 18334,
+   "trainService": {
+    "code": "U",
+    "designation": "Urbano"
+   },
+   "trainOrigin": {
+    "code": "94-31039",
+    "designation": "Lisboa Oriente"
+   },
+   "trainDestination": {
+    "code": "94-61101",
+    "designation": "Sintra"
+   },
+   "arrivalTime": "00:00",
+   "departureTime": "00:00",
+   "platform": "2",
+   "delay": null,
+   "occupancy": null,
+   "supression": null,
+   "ETA": null,
+   "ETD": null
+  },
+  {
+   "trainNumber": 18807,
+   "trainService": {
+    "code": "U",
+    "designation": "Urbano"
+   },
+   "trainOrigin": {
+    "code": "94-59006",
+    "designation": "Lisboa Rossio"
+   },
+   "trainDestination": {
+    "code": "94-61101",
+    "designation": "Sintra"
+   },
+   "arrivalTime": "05:56",
+   "departureTime": "05:56",
+   "platform": "1",
+   "delay": 4,
+   "occupancy": 1,
+   "supression": null,
+   "ETA": "05:57",
+   "ETD": "05:58"
+  },
+  {
+   "trainNumber": 18404,
+   "trainService": {
+    "code": "U",
+    "designation": "Urbano"
+   },
+   "trainOrigin": {
+    "code": "94-61101",
+    "designation": "Sintra"
+   },
+   "trainDestination": {
+    "code": "94-31039",
+    "designation": "Lisboa Oriente"
+   },
+   "arrivalTime": "05:59",
+   "departureTime": "05:59",
+   "platform": "3",
+   "delay": 6,
+   "occupancy": 3,
+   "supression": null,
+   "ETA": "05:59",
+   "ETD": "06:00"
+  },
+  {
+   "trainNumber": 18418,
+   "trainService": {
+    "code": "U",
+    "designation": "Urbano"
+   },
+   "trainOrigin": {
+    "code": "94-61101",
+    "designation": "Sintra"
+   },
+   "trainDestination": {
+    "code": "94-31039",
+    "designation": "Lisboa Oriente"
+   },
+   "arrivalTime": "08:09",
+   "departureTime": "08:09",
+   "platform": "3",
+   "delay": -1,
+   "occupancy": null,
+   "supression": {
+    "code": "CANCELLED",
+    "designation": "Suprimido"
+   },
+   "ETA": null,
+   "ETD": null
+  },
+  {
+   "trainNumber": 18904,
+   "trainService": {
+    "code": "U",
+    "designation": "Urbano"
+   },
+   "trainOrigin": {
+    "code": "94-61101",
+    "designation": "Sintra"
+   },
+   "trainDestination": {
+    "code": "94-59006",
+    "designation": "Lisboa Rossio"
+   },
+   "arrivalTime": "00:13",
+   "departureTime": null,
+   "platform": "4",
+   "delay": null,
+   "occupancy": null,
+   "supression": null,
+   "ETA": null,
+   "ETD": null
+  }
+ ],
+ "messages": []
+}

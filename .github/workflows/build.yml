@@ -1,0 +1,46 @@
+name: Build APK
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Unit tests
+        run: ./gradlew testReleaseUnitTest --console=plain
+
+      - name: Build APK
+        run: ./gradlew assembleRelease --console=plain
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/release/app-release.apk cp-widget.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cp-widget-apk
+          path: cp-widget.apk
+
+      # Replace the "latest" release so the newest APK is always at the same link.
+      - name: Publish "latest" release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --cleanup-tag --yes || true
+          gh release create latest cp-widget.apk \
+            --target "$GITHUB_SHA" \
+            --title "CP Widget (build ${{ github.run_number }})" \
+            --notes "Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}. Download cp-widget.apk and open it on your phone to install."
